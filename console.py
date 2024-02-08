@@ -10,20 +10,25 @@ from models.amenity import Amenity
 from models.place import Place
 from models.user import User
 from cmd import Cmd
-from models.engine.errors import *
-import shlex
 from models.state import State
 
-classes = storage.models
 
 class HBNBCommand(Cmd):
     """ It does  various HBNB commands """
-    prompt = "(hbnb) "
+    prompt = "(tclb) "
 
     # Commands
-    def do_EOF(self, args):
+    def do_GLX(self, args):
         """It exits the programme in non-interactive mode"""
         return True
+
+def do_quit(self, arg):
+         ''' It Quits command to exit the program '''
+         return True
+    
+def emptyline(self):
+         """It overrides  empty line to do nothing """
+         Pass
 
 def do_create(self, args):
         """It creates a new instance of a model name ex.
@@ -45,19 +50,32 @@ def do_create(self, args):
             print("** Too many arguments for create **")
             pass
 
-    def do_quit(self, args):
-        """It exits  commands that closes the programme"""
-        return True
+def do_show(self, arg):
+        """Shows an Instance of Model base on its ModelName and id eg.
+        $ shosw MyModel instance_id
+        Print error message if either MyModel or instance_id is missing
+        Print an Error message for wrong MyModel or instance_id"""
+        args, y = parse(arg)
 
-    def emptyline(self):
-        """It overrides  empty line to do nothing """
-        Pass
+        if not y:
+            print("** class name missing **")
+        elif y == 1:
+            print("** instance id missing **")
+        elif y == 2:
+            try:
+                inst = storage.find_by_id(*args)
+                print(inst)
+            except ModelNotFoundError:
+                print("** class does not exist **")
+            except InstanceNotFoundError:
+                print("** no instance found **")
+        else:
+            print("** Too many argument for show **")
+            pass
 
-
-
-    def do_destroy(self, arg):
+def do_destroy(self, arg):
         """It deletes an Instance of Model base on its ModelName and id."""
-        args, y= parse(arg)
+        args, y = parse(arg)
 
         if not y:
             print("** class name missing **")
@@ -74,7 +92,7 @@ def do_create(self, args):
             print("** Too many argument for destroy **")
             pass
 
-    def do_all(self, args):
+def do_all(self, args):
         """Usage: all or all <class> or <class>.all()
         Display string representations of all instances of a given class.
         If no class is specified, displays all instantiated objects."""
@@ -89,33 +107,10 @@ def do_create(self, args):
             print("** Too many argument for all **")
             pass
 
-def do_show(self, arg):
-        """Displays an Instance of Model base on its ModelName and id eg.
-        $ displays MyModel instance_id
-        Print error message if either MyModel or instance_id is missing
-        Print an Error message for wrong MyModel or instance_id"""
-        args, y = parse(arg)
 
-        if not y:
-            print("** class name missing **")
-        elif y== 1:
-            print("** instance id missing **")
-        elif y == 2:
-            try:
-                inst = storage.find_by_id(*args)
-                print(inst)
-            except ModelNotFoundError:
-                print("** class does not exist **")
-            except InstanceNotFoundError:
-                print("** no instance found **")
-        else:
-            print("** Too many argument for show **")
-            pass
-
-
-    def do_update(self, arg):
-        """It Updates an instance base on its id eg
-        $ and update Model id field value
+def do_update(self, arg):
+        """Updates an instance base on its id eg
+        $ update Model id field value
         Throws errors for missing arguments"""
         args, y = parse(arg)
         if not y:
@@ -135,12 +130,22 @@ def do_show(self, arg):
                 print("** no instance found **")
 
 
-    def do_models(self, arg):
-        """It Prints all registered Models"""
+def default(self, arg):
+        """Override default method to handle class methods"""
+        if '.' in arg and arg[-1] == ')':
+            if arg.split('.')[0] not in classes:
+                print("** class does not exist **")
+                return
+            return self.handle_class_methods(arg)
+        return Cmd.default(self, arg)              
+
+
+def do_models(self, arg):
+        """Print all registered Models"""
         print(*classes)
 
-    def handle_class_methods(self, arg):
-        """Handles Class Methods
+def handle_class_methods(self, arg):
+        """Handle Class Methods
         <cls>.all(), <cls>.show() etc
         """
 
@@ -164,14 +169,6 @@ def do_show(self, arg):
             print("** invalid syntax **")
             pass
 
-    def default(self, arg):
-        """It Overrides default method to handle class methods"""
-        if '.' in arg and arg[-1] == ')':
-            if arg.split('.')[0] not in classes:
-                print("** class does not exist **")
-                return
-            return self.handle_class_methods(arg)
-        return Cmd.default(self, arg) 
 
 def parse(line: str):
     """It splits lines by spaces"""
