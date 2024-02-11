@@ -64,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
         print(new.id)
 
     def do_show(self, args):
-        '''It Prints the string represenation of an instances class name and id '''
+        '''Prints the string represenation of an instances class name,id '''
         arg = shlex.split(args)
         if len(arg) == 0:
             print("** class name missing **")
