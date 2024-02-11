@@ -57,5 +57,6 @@ class TestUser(unittest.TestCase):
         self.assertIsInstance(base1_dict['created_at'], str)
         self.assertIsInstance(base1_dict['updated_at'], str)
 
+
 if __name__ == '__main__':
     unittest.main()

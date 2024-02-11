@@ -37,5 +37,6 @@ class TestUser(unittest.TestCase):
                                   str(self.review.id), self.review.__dict__)
         self.assertEqual(print(s), print(self.review))
 
+
 if __name__ == '__main__':
     unittest.main()

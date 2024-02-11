@@ -42,5 +42,6 @@ class TestUser(unittest.TestCase):
                                   str(self.city.id), self.city.__dict__)
         self.assertEqual(print(s), print(self.city))
 
+
 if __name__ == '__main__':
     unittest.main()
