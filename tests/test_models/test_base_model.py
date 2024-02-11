@@ -26,8 +26,8 @@ class TestUser(unittest.TestCase):
         self.assertFalse(hasattr(self.basemodel, "random_attr"))
         self.assertFalse(hasattr(self.basemodel, "name"))
         self.assertTrue(hasattr(self.basemodel, "id"))
-        self.basemodel.name = "Alice"
-        self.basemodel.age = "44"
+        self.basemodel.name = "Judy"
+        self.basemodel.age = "46"
         self.assertTrue(hasattr(self.basemodel, "name"))
         self.assertTrue(hasattr(self.basemodel, "age"))
         delattr(self.basemodel, "name")
