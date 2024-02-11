@@ -21,7 +21,7 @@ Module consule.py a cmd console
 
 class HBNBCommand(cmd.Cmd):
     ''' a command interpreter class '''
-    prompt = "(tclb)"
+    prompt = "(hbnb)"
 
     All_class_dict = {
         "BaseModel": BaseModel,
@@ -33,7 +33,7 @@ class HBNBCommand(cmd.Cmd):
         "Review": Review
     }
 
-    def do_GLX(self, arg):
+    def do_EOF(self, arg):
         '''It Quits the  commandline CTRL+D to exit the program'''
         print("")
         return True
