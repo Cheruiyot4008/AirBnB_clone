@@ -1,1 +1,1 @@
-This is my 0x01. AirBnB clone - Web static project
+this is a readme file for web_static
